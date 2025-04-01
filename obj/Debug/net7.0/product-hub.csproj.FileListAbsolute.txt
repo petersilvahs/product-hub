@@ -1,0 +1,7 @@
+C:\Users\giuli\product-hub\obj\Debug\net7.0\product-hub.csproj.AssemblyReference.cache
+C:\Users\giuli\product-hub\obj\Debug\net7.0\product-hub.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\giuli\product-hub\obj\Debug\net7.0\product-hub.AssemblyInfoInputs.cache
+C:\Users\giuli\product-hub\obj\Debug\net7.0\product-hub.AssemblyInfo.cs
+C:\Users\giuli\product-hub\obj\Debug\net7.0\product-hub.csproj.CoreCompileInputs.cache
+C:\Users\giuli\product-hub\obj\Debug\net7.0\product-hub.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\giuli\product-hub\obj\Debug\net7.0\product-hub.MvcApplicationPartsAssemblyInfo.cache
