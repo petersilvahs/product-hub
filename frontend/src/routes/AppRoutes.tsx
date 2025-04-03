@@ -3,6 +3,7 @@ import { Login } from "../pages/auth/Login"
 import { Register } from "../pages/auth/Register"
 import { ProductList } from "../pages/products/ProductList"
 import { ProductForm } from "../pages/products/ProductForm"
+import { Dashboard } from "../pages/auth/Dashboard"
 
 export function AppRoutes() {
   return (
@@ -10,6 +11,7 @@ export function AppRoutes() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Dashboard />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/products/new" element={<ProductForm />} />
         <Route path="/products/edit/:id" element={<ProductForm />} />

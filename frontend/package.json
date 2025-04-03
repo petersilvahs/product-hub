@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "antd": "^5.24.6",
     "axios": "^1.8.4",
+    "element-plus": "^2.9.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.1"

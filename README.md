@@ -1,55 +1,111 @@
-# 🛍️ Product Hub - Backend
+# 🛍️ Product Hub
 
-Este é o backend da aplicação **Product Hub**, uma **API RESTful** desenvolvida em **.NET 8** com **Entity Framework Core** e **Autenticação JWT**.
+Este é o repositório completo do **Product Hub**, uma aplicação para gerenciamento de produtos, composta por um **frontend em React** e um **backend em .NET 8** com **Entity Framework Core** e **Autenticação JWT**.
 
 ## 🚀 Tecnologias
 
-- .NET 8  
-- Entity Framework Core  
-- SQL Server  
-- Autenticação JWT  
-- Swagger (Swashbuckle.AspNetCore)  
+### **Backend**
+- .NET 8
+- Entity Framework Core
+- SQL Server
+- Autenticação JWT
+- Swagger (Swashbuckle.AspNetCore)
 
-## 📦 Como Rodar o Projeto  
+### **Frontend**
+- React + Vite
+- TypeScript
+- Ant Design
+- Axios
+- React Router
 
-### 🔹 Pré-requisitos  
-Antes de começar, você precisa ter instalado:  
+### **Infraestrutura**
+- Docker + Docker Compose
 
-- **.NET SDK 8**  
-- **SQL Server**  
-- **Insomnia/Postman** (Opcional, para testar a API)  
+## 📦 Como Rodar o Projeto
 
-### 🔹 Clonando o Repositório  
+### 🔹 **Pré-requisitos**
+Antes de começar, você precisa ter instalado:
 
-```makefile
+- **.NET SDK 8**
+- **Node.js** (recomendado: 18+)
+- **Docker e Docker Compose**
+- **Insomnia/Postman** (Opcional, para testar a API)
+
+## 🚀 **Rodando com Docker** (Recomendado)
+
+A forma mais rápida de rodar o projeto é via Docker. Basta clonar o repositório e executar:
+
+```sh
 git clone https://github.com/seu-usuario/product-hub.git
-cd product-hub 
+cd product-hub
+docker compose up -d
 ```
 
-### 🔹 Configurando a Conexão com o Banco de Dados
+Isso iniciará os serviços do **frontend**, **backend** e **SQL Server**.
 
-Abra o arquivo appsettings.json e configure a DefaultConnection com os dados do SQL Server:
-```makefile
-"ConnectionStrings": {
-  "DefaultConnection": "Server=localhost;Database=ProductHub;User Id=sa;Password=SuaSenha;TrustServerCertificate=True;"
-}
+### **Acesso aos Serviços**
+- **Frontend:** http://localhost:3000  
+- **Backend:** http://localhost:5023  
+- **Swagger:** http://localhost:5023/swagger  
+- **Banco de Dados:** SQL Server rodando na porta `1433`
+
+Para parar os containers, execute:
+
+```sh
+docker compose down
 ```
 
-### 🔹 Rodando as Migrações do Banco de Dados
-Execute os comandos abaixo para criar o banco de dados:
-```makefile
-dotnet ef database update
-```
+## ⚙️ **Rodando Manualmente**
 
-### 🔹 Executando o Projeto
-Agora, basta rodar o servidor:
-```makefile
-dotnet run
-```
-- A API estará disponível em http://localhost:5023
+Se preferir rodar os serviços sem Docker, siga os passos abaixo:
 
-### 📖 Documentação da API
-Para acessar a documentação via Swagger, inicie o projeto e acesse:
+### 🔹 **Rodando o Backend**
+
+1. **Clone o repositório e vá para o backend:**
+   ```sh
+   git clone https://github.com/seu-usuario/product-hub.git
+   cd product-hub/backend
+   ```
+
+2. **Configure a conexão com o banco no `appsettings.json`:**
+   ```json
+   "ConnectionStrings": {
+     "DefaultConnection": "Server=localhost;Database=ProductHub;User Id=sa;Password=SUA_SENHA;TrustServerCertificate=True;"
+   }
+   ```
+
+3. **Execute as migrações do banco:**
+   ```sh
+   dotnet ef database update
+   ```
+
+4. **Rode o servidor:**
+   ```sh
+   dotnet run
+   ```
+
+   O backend estará disponível em: http://localhost:5023
+
+### 🔹 **Rodando o Frontend**
+
+1. **Vá para a pasta do frontend:**
+   ```sh
+   cd ../frontend
+   ```
+
+2. **Instale as dependências:**
+   ```sh
+   npm install
+   ```
+
+3. **Inicie o servidor:**
+   ```sh
+   npm run dev
+   ```
+
+   O frontend estará disponível em: http://localhost:5173
+
+## 📖 **Documentação da API**
+A documentação da API pode ser acessada via **Swagger**:
 
 🔗 http://localhost:5023/swagger
-

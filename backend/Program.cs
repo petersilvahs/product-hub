@@ -7,7 +7,6 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar Entity Framework Core com SQL Server
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 if (string.IsNullOrEmpty(connectionString))
@@ -18,7 +17,6 @@ if (string.IsNullOrEmpty(connectionString))
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Configurar autenticação JWT
 var key = Encoding.ASCII.GetBytes("your_secret_key_here");
 builder.Services.AddAuthentication(options =>
 {
@@ -38,7 +36,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Adicionar serviços ao container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -55,7 +52,6 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 
-    // Configurar JWT no Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT authentication using the Bearer scheme. Example: 'Bearer YOUR_TOKEN_HERE'",
@@ -79,22 +75,28 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Aplicar migrações automaticamente ao iniciar a API
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    var maxRetries = 10;
+    var delay = TimeSpan.FromSeconds(5);
+
+    for (int i = 0; i < maxRetries; i++)
+    {
+        try
+        {
+            dbContext.Database.Migrate();
+            break;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Tentativa {i + 1} falhou: {ex.Message}");
+            Thread.Sleep(delay);
+        }
+    }
 }
 
-// Configurar o pipeline HTTP
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product Hub API v1");
-    });
-}
 
 app.UseHttpsRedirection();
 
