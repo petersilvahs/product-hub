@@ -7,11 +7,18 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Entity Framework Core with SQL Server
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Configurar Entity Framework Core com SQL Server
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Configure JWT authentication
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new Exception("A string de conexão com o banco de dados não foi encontrada!");
+}
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+// Configurar autenticação JWT
 var key = Encoding.ASCII.GetBytes("your_secret_key_here");
 builder.Services.AddAuthentication(options =>
 {
@@ -31,7 +38,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Add services to the container
+// Adicionar serviços ao container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -48,7 +55,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 
-    // Configure JWT authentication for Swagger
+    // Configurar JWT no Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT authentication using the Bearer scheme. Example: 'Bearer YOUR_TOKEN_HERE'",
@@ -72,7 +79,14 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// Aplicar migrações automaticamente ao iniciar a API
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
+// Configurar o pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

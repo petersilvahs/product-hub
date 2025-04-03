@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5023:5023"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=ProductHub;User Id=sa;Password=YourPassword;TrustServerCertificate=True;
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "YourPassword"
+      ACCEPT_EULA: "Y"
